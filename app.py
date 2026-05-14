@@ -4,19 +4,23 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "BOT ACTIVO"
+    return "Bot activo"
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-
     data = request.json
 
-    print("SEÑAL RECIBIDA:")
-    print(data)
+    print("Datos recibidos:", data)
 
-    return {
-        "status": "ok"
-    }
+    signal = data.get("signal")
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    if signal == "buy":
+        print("🟢 SEÑAL DE COMPRA")
+
+    elif signal == "sell":
+        print("🔴 SEÑAL DE VENTA")
+
+    else:
+        print("⚠️ Señal desconocida")
+
+    return {"status": "ok"}, 200
